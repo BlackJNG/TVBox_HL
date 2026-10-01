@@ -1,11 +1,22 @@
 {
+  "spider": "https://gh-proxy.org/https://raw.githubusercontent.com/jixiejishu/tvboxzb/master/jar/spider.jar",
   "sites": [
     {
+      "key": "video_article",
       "name": "📄视频文章站",
-      "type": 0,
-      "searchable": 1,
+      "type": 3,
       "api": "https://gh-proxy.org/https://raw.githubusercontent.com/jixiejishu/tvboxzb/master/lib/drpy2.min.js",
-      "ext": "https://gh-proxy.org/https://raw.githubusercontent.com/BlackJNG/TVBox_HL/main/video_article.js"
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 0,
+      "changeable": 1,
+      "ext": "https://gh-proxy.org/https://raw.githubusercontent.com/BlackJNG/TVBox_HL/main/video_article.js",
+      "timeout": 15
     }
-  ]
+  ],
+  "lives": [],
+  "parses": [],
+  "flags": [],
+  "wallpaper": [],
+  "ijk": []
 }
