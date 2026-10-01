@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<title>飞哥导航 - 实时更新访问线路</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0a0a0a; color: #eee; font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; min-height: 100vh; }
+  .top-tip { background: #1a1a1a; color: #ff9000; text-align: center; padding: 10px; font-size: 14px; }
+  .box { max-width: 520px; margin: 0 auto; padding: 24px 16px 40px; }
+  .logo { text-align: center; padding: 32px 0 24px; }
+  .logo img { max-width: 180px; border-radius: 12px; }
+  .logo h1 { font-size: 22px; margin-top: 12px; letter-spacing: 1px; }
+  .line-card { display: block; background: #1a1a1a; border-radius: 10px; padding: 14px 16px; margin: 12px 0; text-decoration: none; border: 1px solid #222; transition: background .2s; }
+  .line-card:hover { background: #242424; }
+  .line-card .ln { font-size: 15px; color: #fff; font-weight: 600; }
+  .line-card .lu { font-size: 13px; color: #ff9000; word-break: break-all; margin-top: 4px; }
+  .section-title { color: #888; font-size: 13px; margin: 24px 0 8px; }
+  .footer { text-align: center; color: #666; font-size: 12px; padding: 24px 0 40px; line-height: 1.8; }
+  .footer a { color: #888; text-decoration: none; }
+  .footer .icons a { display: inline-block; margin: 0 8px; color: #aaa; font-size: 20px; text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="top-tip" id="notice">当前页面截图保存，以免丢失</div>
+<div class="box">
+  <div class="logo">
+    <h1 id="title">飞哥导航</h1>
+  </div>
+  <div class="section-title">访问线路</div>
+  <div id="lines"></div>
+  <div class="section-title">配置直达</div>
+  <div id="apps"></div>
+  <div class="footer" id="footer"></div>
+</div>
+<script>
+  // 读取同目录 publish.json 渲染线路列表
+  fetch('publish.json').then(function (r) { return r.json(); }).then(function (d) {
+    if (d.title) document.getElementById('title').textContent = d.title;
+    if (d.notice) document.getElementById('notice').textContent = d.notice;
+    var lines = document.getElementById('lines');
+    (d.lines || []).forEach(function (l) {
+      var a = document.createElement('a');
+      a.className = 'line-card'; a.target = '_blank'; a.href = l.url;
+      a.innerHTML = '<div class="ln">' + l.name + '</div><div class="lu">' + l.url + '</div>';
+      lines.appendChild(a);
+    });
+    var apps = document.getElementById('apps');
+    (d.apps || []).forEach(function (l) {
+      var a = document.createElement('a');
+      a.className = 'line-card'; a.target = '_blank'; a.href = l.url;
+      a.innerHTML = '<div class="ln">' + l.name + '</div><div class="lu">' + l.url + '</div>';
+      apps.appendChild(a);
+    });
+    if (d.footer) {
+      var f = d.footer;
+      document.getElementById('footer').innerHTML =
+        'Copyright © ' + new Date().getFullYear() + ' <a href="' + f.home + '">' + f.copyright + '</a><br>备用地址实时更新，请保存本页';
+    }
+  }).catch(function () {
+    document.getElementById('lines').innerHTML = '<div class="line-card" style="color:#888">发布数据加载失败</div>';
+  });
+</script>
+</body>
+</html>

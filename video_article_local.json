@@ -1,0 +1,11 @@
+{
+  "sites": [
+    {
+      "name": "📄视频文章站",
+      "type": 0,
+      "searchable": 1,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/jixiejishu/tvboxzb/master/lib/drpy2.min.js",
+      "ext": "https://gh-proxy.org/https://raw.githubusercontent.com/BlackJNG/TVBox_HL/main/video_article.js"
+    }
+  ]
+}
