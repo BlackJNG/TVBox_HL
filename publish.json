@@ -21,9 +21,15 @@
     {
       "name": "站点A",
       "domains": [
-        "https://your-site-a-1.com"
+        "https://hlwf17.com"
+      ]
+    },{
+      "name": "站点 B ",
+      "domains": [
+        "https://heiliao.com"
       ]
     }
+
   ],
   "footer": {
     "copyright": "飞哥导航",
