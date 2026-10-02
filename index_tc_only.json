@@ -8,7 +8,7 @@
    "api": "https://gh-proxy.org/https://raw.githubusercontent.com/qist/tvbox/refs/heads/master/lib/drpy2.min.js",
    "changeable": 0,
    "style": {
-    "type": "rect",
+    "type": "list",
     "ratio": 1.597
    },
    "ext": "https://gh-proxy.org/https://raw.githubusercontent.com/BlackJNG/TVBox_HL/main/tcniao.js"
