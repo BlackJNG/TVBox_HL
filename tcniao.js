@@ -26,7 +26,7 @@ var rule = {
     lazy: 'js:input={jx:0,url:input,parse:0}',
 
     // ===== 线路导航页（实时解析域名，含 line-long 链接）=====
-    nav: 'https://hlwf17.com',
+    nav: 'https://address.zgn.com',
     // ===== 兜底域名（导航页打不开时按序尝试）=====
     hosts: ['https://tc.niao.com', 'https://tc2.niao.com', 'https://tc3.niao.com'],
 
