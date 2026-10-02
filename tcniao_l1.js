@@ -23,7 +23,7 @@ var rule = {
     lazy: 'js:input={jx:0,url:input,parse:0}',
 
     // ===== 多线路域名列表（按序尝试，第一个可用即用）=====
-    hosts: ['https://tc.niao.com'],
+    hosts: ['https://71oru.puojgoqf.cc/'],
 
     // 首页推荐：自动选可用 host
     推荐: 'js:var hosts=(typeof rule!=="undefined"&&rule.hosts)?rule.hosts:["https://tc.niao.com"];var cur="";function getHtml(path){for(var i=0;i<hosts.length;i++){try{var h=request(hosts[i]+path);if(h&&typeof h==="string"&&h.length>100){cur=hosts[i];return h;}}catch(e){}}return "";}var html=getHtml("/");var list=[];var parts=html.split(\'<div class="video-item">\');for(var i=1;i<parts.length;i++){var block=parts[i].substring(0,2000);var hm=block.match(/href="(\\/archives\\/(\\d+)\\/)"/);if(!hm)continue;var tm=block.match(/alt="([^"]+)"/);var t=tm?tm[1]:hm[1];var img="";var im=block.match(/src="(https?:\\/\\/[^"]+)"/);if(im)img=im[1];else{var im2=block.match(/src="(\\/[^"]+)"/);if(im2&&cur)img=cur+im2[1];}list.push({vod_id:hm[2],vod_name:t,vod_pic:img,vod_remarks:"TC鸟"});}VODS=list;',
