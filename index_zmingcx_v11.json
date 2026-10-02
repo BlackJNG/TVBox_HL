@@ -1819,18 +1819,6 @@
    "ext": "https://gh-proxy.org/https://raw.githubusercontent.com/qist/tvbox/refs/heads/master/js/去看吧.js"
   },
   {
-   "key": "zmingcx",
-   "name": "🦜知更鸟文章站",
-   "type": 3,
-   "api": "https://gh-proxy.org/https://raw.githubusercontent.com/qist/tvbox/refs/heads/master/lib/drpy2.min.js",
-   "changeable": 0,
-   "style": {
-    "type": "rect",
-    "ratio": 1.597
-   },
-   "ext": "https://gh-proxy.org/https://raw.githubusercontent.com/BlackJNG/TVBox_HL/main/zmingcx.js"
-  },
-  {
    "key": "zmingcx_probe",
    "name": "🧪知更鸟探针",
    "type": 3,
@@ -1841,6 +1829,18 @@
     "ratio": 1.597
    },
    "ext": "https://gh-proxy.org/https://raw.githubusercontent.com/BlackJNG/TVBox_HL/main/zmingcx_probe.js"
+  },
+  {
+   "key": "tcniao",
+   "name": "🦜TC鸟文章站",
+   "type": 3,
+   "api": "https://gh-proxy.org/https://raw.githubusercontent.com/qist/tvbox/refs/heads/master/lib/drpy2.min.js",
+   "changeable": 0,
+   "style": {
+    "type": "rect",
+    "ratio": 1.597
+   },
+   "ext": "https://gh-proxy.org/https://raw.githubusercontent.com/BlackJNG/TVBox_HL/main/tcniao.js"
   }
  ],
  "lives": [
