@@ -1,0 +1,21 @@
+{
+  "spider": "https://feigeys.pages.dev/newwex.jar;md5;fc8f993c9297d38139363cd0e3db9853",
+  "sites": [
+    {
+      "key": "zmingcx",
+      "name": "🦜知更鸟文章站",
+      "type": 3,
+      "api": "https://raw.githubusercontent.com/BlackJNG/TVBox_HL/main/zmingcx_tv.js",
+      "searchable": 0,
+      "quickSearch": 0,
+      "filterable": 1,
+      "changeable": 1,
+      "timeout": 30
+    }
+  ],
+  "lives": [],
+  "parses": [],
+  "flags": [],
+  "wallpaper": [],
+  "ijk": []
+}
