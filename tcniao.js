@@ -11,7 +11,7 @@
 
 var rule = {
     title: 'TC鸟',
-    host: 'https://shturl.cc',
+    host: 'https://u5bxh.lbelxtdd.cc/',
     homeUrl: '/',
     url: '/page/fypage/',
     class_name: '最新视频',
