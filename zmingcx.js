@@ -1,205 +1,87 @@
 // ========================================================
-// 知更鸟 zmingcx.com 专用规则 v3 - 影视仓/猫影视 drpy2 兼容
-// 格式: VOD 对象（drpy2 标准格式，兼容性最好）
-// 站点: 知更鸟主题资源站 (WordPress, REST API 已禁用, 纯 HTML 解析)
-// 说明: 首页=分类菜单+最新文章; 分类=文章列表; 详情=提取B站/MP4/iframe播放源
-// 搜索: 该站开启搜索验证, searchContent 不可用, 返回空
+// 知更鸟 zmingcx.com 专用规则 v4 - drpy2 配置型（var rule）
+// 依据 drpy2 运行时真实加载逻辑编写：
+//   init() 用 eval(js.replace('var rule','rule')) 加载规则
+//   解析字段支持 js: 前缀内嵌代码，eval 后把结果赋给 VODS(列表)/VOD(详情)
+// 站点: WordPress(知更鸟主题), REST API 禁用, 纯 HTML 解析
+// 搜索: 站点开启搜索验证, 不可用
 // ========================================================
 
-var HOST = 'https://zmingcx.com';
-var UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36';
+// ---- 列表页解析代码（内嵌到 js: 字段中，供首页/分类复用） ----
+var PARSELIST = [
+    'function parseList(html){',
+    'var list=[];',
+    'var items=html.split("<article");',
+    'for(var i=1;i<items.length;i++){',
+    'var it=items[i];',
+    'var um=it.match(/href="(https:\\/\\/zmingcx\\.com\\/[^"]+\\.html)"/);',
+    'if(!um){continue;}',
+    'var tm=it.match(/<h2[^>]*class="[^"]*title[^"]*"[^>]*>\\s*<a[^>]*>([^<]+)<\\/a>/);',
+    'var t=tm?tm[1].replace(/^\\s+|\\s+$/g,""):"未知标题";',
+    'var pic="";',
+    'var pm=it.match(/background-image:\\s*url\\(([^)]+)\\)/);',
+    'if(pm){pic=pm[1];}else{var ds=it.match(/data-src="(https?:\\/\\/[^"]+)"/);if(ds){pic=ds[1];}}',
+    'list.push({vod_id:um[1],vod_name:t,vod_pic:pic,vod_remarks:"知更鸟"});',
+    '}',
+    'return list;',
+    '}'
+].join('\n');
 
-// 首页分类菜单（type_id 为内部标识，CATS 映射到真实分类路径）
-var CLASSES = [
-    { type_id: 'home', type_name: '最新文章', filter: 0 },
-    { type_id: 'cat_video', type_name: '影视音乐', filter: 0 },
-    { type_id: 'cat_digital', type_name: '数码', filter: 0 },
-    { type_id: 'cat_material', type_name: '素材', filter: 0 },
-    { type_id: 'cat_wordpress', type_name: 'WordPress', filter: 0 },
-    { type_id: 'cat_information', type_name: '资讯', filter: 0 },
-    { type_id: 'cat_works', type_name: '作品', filter: 0 },
-    { type_id: 'cat_literacy', type_name: '科普', filter: 0 }
-];
+// ---- 详情页播放解析代码（内嵌到二级 js: 字段中） ----
+var PARSEDETAIL = [
+    'function parseDetail(html){',
+    'var videos=[];var m;',
+    'var reB=/<iframe[^>]*src="(\\/\\/player\\.bilibili\\.com\\/player\\.html\\?[^"]+)"/gi;',
+    'while((m=reB.exec(html))!==null){',
+    'var bv=m[1].match(/bvid=([A-Za-z0-9]+)/);',
+    'if(bv){videos.push({n:"B站"+(videos.length+1),u:"https://www.bilibili.com/video/"+bv[1]});}',
+    '}',
+    'var reM=/(?:src|data-src)="(https?:\\/\\/[^"]*\\.mp4[^"]*)"/gi;',
+    'while((m=reM.exec(html))!==null){videos.push({n:"视频"+(videos.length+1),u:m[1]});}',
+    'var reI=/<iframe[^>]*src="(https?:\\/\\/[^"]+)"[^>]*>/gi;',
+    'while((m=reI.exec(html))!==null){',
+    'var dup=false;',
+    'for(var i=0;i<videos.length;i++){if(videos[i].u===m[1]){dup=true;break;}}',
+    'if(!dup){videos.push({n:"嵌入"+(videos.length+1),u:m[1]});}',
+    '}',
+    'return videos;',
+    '}'
+].join('\n');
 
-var CATS = {
-    'cat_video': 'navigation/video',
-    'cat_digital': 'digital',
-    'cat_material': 'material',
-    'cat_wordpress': 'navigation/wordpress',
-    'cat_information': 'information',
-    'cat_works': 'works',
-    'cat_literacy': 'literacy'
-};
+// ---- drpy2 配置型规则 ----
+var rule = {
+    title: '知更鸟',
+    host: 'https://zmingcx.com',
+    homeUrl: 'https://zmingcx.com/',
 
-// ---------------- 工具：抓取（先无参，再带UA重试，兼容各版本drpy2） ----------------
-function get(url) {
-    try {
-        var html = request(url);
-        if (html && typeof html === 'string' && html.length > 100) {
-            return html;
-        }
-    } catch (e) {}
-    try {
-        var html2 = request(url, { headers: { 'User-Agent': UA } });
-        if (html2 && typeof html2 === 'string' && html2.length > 100) {
-            return html2;
-        }
-    } catch (e2) {}
-    return '';
-}
+    // 分类菜单
+    class_name: '影视音乐|数码|素材|WordPress|资讯|作品|科普',
+    class_url: 'navigation/video|digital|material|navigation/wordpress|information|works|literacy',
 
-// ---------------- 工具：解析列表页（首页/分类页/分页通用） ----------------
-function parseList(html) {
-    var list = [];
-    var items = html.split('<article');
-    for (var i = 1; i < items.length; i++) {
-        var item = items[i];
-        var urlM = item.match(/href="(https:\/\/zmingcx\.com\/[^"]+\.html)"/);
-        if (!urlM) {
-            continue;
-        }
-        var titleM = item.match(/<h2[^>]*class="[^"]*title[^"]*"[^>]*>\s*<a[^>]*>([^<]+)<\/a>/);
-        var title = titleM ? titleM[1].replace(/^\s+|\s+$/g, '') : '未知标题';
-        var pic = '';
-        var picM = item.match(/background-image:\s*url\(([^)]+)\)/);
-        if (picM) {
-            pic = picM[1];
-        } else {
-            var ds = item.match(/data-src="(https?:\/\/[^"]+)"/);
-            if (ds) {
-                pic = ds[1];
-            }
-        }
-        list.push({
-            vod_id: urlM[1],
-            vod_name: title,
-            vod_pic: pic,
-            vod_remarks: '知更鸟'
-        });
-    }
-    return list;
-}
+    // 分类页 URL 模板：fyclass=分类路径, (fypage>1?...)=分页表达式
+    url: '/category/fyclass/(fypage>1?"page/"+fypage+"/":"")',
 
-// ========================================================
-// drpy2 标准 VOD 对象
-// ========================================================
-var VOD = {
-
-    // ---------------- 1. 首页：分类菜单 + 最新文章 ----------------
-    homeContent: function (filter) {
-        var list = parseList(get(HOST + '/'));
-        return JSON.stringify({ class: CLASSES, list: list });
+    // 请求头
+    headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36'
     },
 
-    // ---------------- 2. 分类页：文章列表 ----------------
-    categoryContent: function (tid, pg, filter, extend) {
-        var page = parseInt(pg) || 1;
-        if (page < 1) page = 1;
+    // 首页列表：抓首页 HTML 解析
+    推荐: 'js:' + PARSELIST + ';var list=parseList(request(input));VODS=list;',
 
-        var url = '';
-        if (tid === 'home') {
-            url = page > 1 ? HOST + '/page/' + page + '/' : HOST + '/';
-        } else if (CATS[tid]) {
-            url = HOST + '/category/' + CATS[tid] + '/';
-            if (page > 1) {
-                url = HOST + '/category/' + CATS[tid] + '/page/' + page + '/';
-            }
-        } else {
-            return JSON.stringify({ list: [] });
-        }
+    // 分类列表：input 已是拼好的分类页 URL
+    一级: 'js:' + PARSELIST + ';var list=parseList(request(input));VODS=list;',
 
-        var list = parseList(get(url));
-        return JSON.stringify({ list: list, page: page, pagecount: 10, total: list.length });
-    },
+    // 详情页：提取 B站/MP4/iframe 播放源
+    二级: 'js:' + PARSEDETAIL + ';var html=request(input);var videos=parseDetail(html);' +
+        'var titleM=html.match(/<h1[^>]*>([^<]+)<\\/h1>/);' +
+        'var vodName=titleM?titleM[1].replace(/^\\s+|\\s+$/g,""):"文章播放";' +
+        'var playUrls="";' +
+        'for(var k=0;k<videos.length;k++){playUrls+=videos[k].n+"$"+videos[k].u;if(k<videos.length-1){playUrls+="#";}}' +
+        'VOD={vod_id:input,vod_name:vodName,vod_pic:"",vod_remarks:"共"+videos.length+"个播放源",vod_play_from:"知更鸟",vod_play_url:playUrls};',
 
-    // ---------------- 3. 详情页：提取播放源 ----------------
-    detailContent: function (ids) {
-        if (!ids || ids.length === 0) {
-            return JSON.stringify({ list: [] });
-        }
-        var id = ids[0];
-        if (id.indexOf('http') !== 0) {
-            id = HOST + id;
-        }
+    // 搜索：站点开启搜索验证，返回空
+    搜索: 'js:VODS=[];',
 
-        var html = get(id);
-        if (!html) {
-            return JSON.stringify({ list: [] });
-        }
-
-        // 文章标题（详情页展示用）
-        var titleM = html.match(/<h1[^>]*>([^<]+)<\/h1>/);
-        var artTitle = titleM ? titleM[1].replace(/^\s+|\s+$/g, '') : '文章播放';
-
-        var videos = [];
-        var m;
-
-        // B站 iframe: //player.bilibili.com/player.html?bvid=BVxxx&p=1
-        var reB = /<iframe[^>]*src="(\/\/player\.bilibili\.com\/player\.html\?[^"]+)"/gi;
-        while ((m = reB.exec(html)) !== null) {
-            var bv = m[1].match(/bvid=([A-Za-z0-9]+)/);
-            if (bv) {
-                videos.push({ name: 'B站' + (videos.length + 1), url: 'https://www.bilibili.com/video/' + bv[1] });
-            } else {
-                videos.push({ name: 'B站' + (videos.length + 1), url: 'https:' + m[1] });
-            }
-        }
-
-        // 直链 mp4
-        var reM = /(?:src|data-src)="(https?:\/\/[^"]*\.mp4[^"]*)"/gi;
-        while ((m = reM.exec(html)) !== null) {
-            videos.push({ name: '视频' + (videos.length + 1), url: m[1] });
-        }
-
-        // 其他 iframe（去重，跳过已收录的 B站）
-        var reI = /<iframe[^>]*src="(https?:\/\/[^"]+)"[^>]*>/gi;
-        while ((m = reI.exec(html)) !== null) {
-            var src = m[1];
-            var dup = false;
-            for (var i = 0; i < videos.length; i++) {
-                if (videos[i].url === src) {
-                    dup = true;
-                    break;
-                }
-            }
-            if (!dup) {
-                videos.push({ name: '嵌入' + (videos.length + 1), url: src });
-            }
-        }
-
-        if (videos.length === 0) {
-            return JSON.stringify({
-                list: [{
-                    vod_id: id,
-                    vod_name: artTitle,
-                    vod_remarks: '本文无内嵌播放源',
-                    vod_play_from: '提示',
-                    vod_play_url: '无视频$$$'
-                }]
-            });
-        }
-
-        var playUrls = '';
-        for (var j = 0; j < videos.length; j++) {
-            playUrls += videos[j].name + '$' + videos[j].url;
-            if (j < videos.length - 1) {
-                playUrls += '#';
-            }
-        }
-
-        return JSON.stringify({
-            list: [{
-                vod_id: id,
-                vod_name: artTitle,
-                vod_remarks: '共 ' + videos.length + ' 个播放源',
-                vod_play_from: '知更鸟',
-                vod_play_url: playUrls
-            }]
-        });
-    },
-
-    // ---------------- 4. 搜索：站点开启搜索验证，不可用 ----------------
-    searchContent: function (keyword, quickSearch) {
-        return JSON.stringify({ list: [] });
-    }
+    timeout: 30
 };
