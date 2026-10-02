@@ -4,7 +4,7 @@
 
 var DEBUG = true;
 var SITES = [
-    { name: '默认测试站', host: 'https://your-site-1.com' } 
+    { name: '默认测试站', host: 'https://jryck.vrlvlgvm.cc/' } 
     // ↑ 请在此处填写你的实际站点地址，格式如: { name: '电影站', host: 'https://www.xxx.com' }
 ];
 
