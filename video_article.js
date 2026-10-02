@@ -1,150 +1,143 @@
-// ========================================================
-// 【影视仓 drpy2 适配版】文章爬虫 (固定首页分类 + 界面调试显字)
-// 说明：直接按油猴脚本正则提取，抓取状态直接显示在片单上。
-// ========================================================
+﻿// ============================================================
+// 影视仓 / TVBox 首页文章源  兼容版 (无 emoji, 无可选链, 纯 var)
+// 内核通用: 影视仓(派大星)=TVBoxOSC 魔改, 写法一致
+// 用法: type:3 的源, api 指向 drpy2.min.js, ext 指向本文件地址
+// 自检: 只要脚本被成功加载, 首页一定先显示"首页文章"分类
+// ============================================================
 
-// 【核心配置】请修改下面的 host 为你的真实站点地址（结尾不要带斜杠 /）
-var SITES = [
-    { name: '测试站点', host: 'https://jryck.vrlvlgvm.cc' } 
-];
+// 改这里: 你的真实站点根地址, 结尾不要带斜杠
+var HOST = 'https://jryck.vrlvlgvm.cc/';
 
-// ========================================================
-// 1. 首页入口：固定分类
-// ========================================================
+// ---------- 工具: 抓 HTML ----------
+function getHtml(url) {
+    try {
+        var h = request(url);
+        if (!h) return '';
+        return h;
+    } catch (e) {
+        return '';
+    }
+}
+
+// ---------- 文章列表解析(按油猴规则: video-item + archives) ----------
+function parseList(html) {
+    var arr = [];
+    if (!html || html.length < 50) return arr;
+    var blocks = html.split('video-item');
+    if (blocks.length <= 1) return arr;
+    for (var i = 1; i < blocks.length; i++) {
+        var blk = blocks[i];
+        var um = blk.match(/href=["']([^"']*\/archives\/[^"']*)["']/);
+        if (!um) continue;
+        var link = um[1];
+        var tm = blk.match(/alt=["']([^"']*)["']/);
+        if (!tm) tm = blk.match(/title=["']([^"']*)["']/);
+        var title = tm ? tm[1] : '未取到标题';
+        arr.push({
+            vod_id: link,
+            vod_name: title,
+            vod_pic: '',
+            vod_remarks: 'OK 已匹配'
+        });
+    }
+    return arr;
+}
+
+// ---------- 首页: 固定一个分类, 保证一定显示 ----------
 function homeContent(filter) {
     var classes = [];
-    classes.push({ type_id: 'home', type_name: '📄 首页文章 (加载中...)' });
+    classes.push({ type_id: 'home', type_name: '首页文章' });
     return JSON.stringify({ class: classes, list: [] });
 }
 
-// ========================================================
-// 2. 分类页：请求首页文章列表 + 界面显字
-// ========================================================
+// ---------- 分类页: 抓 /archives/ 文章列表 ----------
 function categoryContent(tid, pg, filter, extend) {
     if (tid !== 'home') return JSON.stringify({ list: [] });
-    
-    var site = SITES[0];
-    if (!site) {
-        return JSON.stringify({ list: [{ vod_id: 'err', vod_name: '❌ 错误', vod_remarks: '未配置站点' }] });
-    }
-
-    // 请求地址
-    var url = site.host + '/archives/';
-    if (pg > 1) url = site.host + '/archives/page/' + pg + '/';
-
     try {
-        var html = request(url);
-        
-        // 显字：提示页面获取状态
-        if (!html || html.length < 100) {
-            return JSON.stringify({ list: [{ vod_id: 'err', vod_name: '❌ 页面加载失败', vod_remarks: '域名不通/页面长度过短(' + (html?html.length:'null') + ')' }] });
-        }
-        
-        // 显字：提示正在按油猴规则截取
-        var items = html.split('<div class="video-item">');
-        if (items.length <= 1) {
-            return JSON.stringify({ list: [{ vod_id: 'err', vod_name: '❌ 正则未匹配', vod_remarks: '未切出 video-item 块' }] });
-        }
+        var url = HOST + '/archives/';
+        if (pg > 1) url = HOST + '/archives/page/' + pg + '/';
+        var html = getHtml(url);
 
-        var result = [];
-        for (var i = 1; i < items.length; i++) {
-            var item = items[i];
-            var urlMatch = item.match(/href="([^"]+\/archives\/\d+\/)"/);
-            if (!urlMatch) continue;
-            
-            var url = urlMatch[1];
-            var titleMatch = item.match(/alt="([^"]+)"/);
-            var title = titleMatch ? titleMatch[1] : '未知标题';
-            
-            result.push({
-                vod_id: url,
-                vod_name: title,
-                vod_pic: '',
-                vod_remarks: '✅ 匹配成功' // 显字：列表项状态
-            });
+        if (!html) {
+            return JSON.stringify({ list: [{
+                vod_id: 'e1', vod_name: '【ERR】页面为空', vod_remarks: '域名不通/ext未配置或Host错误'
+            }] });
+        }
+        if (html.length < 200) {
+            return JSON.stringify({ list: [{
+                vod_id: 'e2', vod_name: '【ERR】页面过短(' + html.length + ')', vod_remarks: '可能被拦截或地址错'
+            }] });
         }
 
-        // 显字：列表解析结果
-        if (result.length === 0) {
-            return JSON.stringify({ list: [{ vod_id: 'err', vod_name: '❌ 解析为空', vod_remarks: '未获取到有效链接' }] });
+        var list = parseList(html);
+        if (list.length === 0) {
+            return JSON.stringify({ list: [{
+                vod_id: 'e3', vod_name: '【ERR】结构没匹配', vod_remarks: '未切到 video-item, 站点结构已变'
+            }] });
         }
-
-        return JSON.stringify({ list: result, page: parseInt(pg), total: result.length, pagecount: 10 });
-
+        return JSON.stringify({ list: list, page: parseInt(pg), total: list.length, pagecount: 20 });
     } catch (e) {
-        // 显字：捕获任何运行报错
-        return JSON.stringify({ list: [{ vod_id: 'err', vod_name: '❌ 脚本崩溃', vod_remarks: e.message }] });
+        return JSON.stringify({ list: [{
+            vod_id: 'e9', vod_name: '【ERR】运行报错', vod_remarks: '' + e.message
+        }] });
     }
 }
 
-// ========================================================
-// 3. 详情页：提取视频 + 界面显字
-// ========================================================
+// ---------- 详情: 提取 data-video_title + config ----------
 function detailContent(ids) {
     try {
-        var vodId = ids[0];
-        var url = SITES[0].host + vodId;
-        var html = request(url);
-        
-        var result = [];
-        var videoRegex = /data-video_title="([^"]+)"[\s\S]*?config='([^']+)'/g;
-        var match;
-        
-        while ((match = videoRegex.exec(html)) !== null) {
-            var title = match[1];
-            var configStr = match[2];
+        var id = ids[0];
+        var url = id;
+        if (id.indexOf('http') !== 0) url = HOST + id;
+        var html = getHtml(url);
+        if (!html) {
+            return JSON.stringify({ list: [{ vod_id: id, vod_name: '【ERR】详情为空', vod_remarks: '域名不通', vod_play_from: 'tip', vod_play_url: 'no$no' }] });
+        }
+        var re = /data-video_title=["']([^"']*)["'][\s\S]*?config=['"]([^'"]*)['"]/g;
+        var m, vids = [];
+        while ((m = re.exec(html)) !== null) {
+            var name = m[1];
+            var cfgStr = m[2];
             try {
-                var cfg = eval('(' + configStr + ')');
-                var playUrl = cfg.video?.url || cfg.video?.source || '';
-                if (playUrl) {
-                    result.push({ name: title, url: playUrl });
+                var cfg = eval('(' + cfgStr + ')');
+                var playUrl = '';
+                if (cfg && cfg.video) {
+                    if (cfg.video.url) playUrl = cfg.video.url;
+                    else if (cfg.video.source) playUrl = cfg.video.source;
                 }
-            } catch (e) {}
+                if (playUrl) vids.push({ name: name, url: playUrl });
+            } catch (ee) { }
         }
-
-        // 显字：视频解析结果
-        if (result.length === 0) {
-            return JSON.stringify({ list: [{ vod_id: vodId, vod_name: '❌ 未解析到视频', vod_remarks: 'data-video_title/config 正则不匹配', vod_play_from: '提示', vod_play_url: '无视频$$$' }] });
+        if (vids.length === 0) {
+            return JSON.stringify({ list: [{ vod_id: id, vod_name: '【ERR】无视频', vod_remarks: '未匹配 video_title/config', vod_play_from: 'tip', vod_play_url: 'no$no' }] });
         }
-
-        var playUrls = '';
-        for (var i = 0; i < result.length; i++) {
-            playUrls += result[i].name + '$' + result[i].url;
-            if (i < result.length - 1) playUrls += '#';
+        var play = '';
+        for (var i = 0; i < vids.length; i++) {
+            play += vids[i].name + '$' + vids[i].url;
+            if (i < vids.length - 1) play += '#';
         }
-
-        return JSON.stringify({ list: [{ vod_id: vodId, vod_name: result[0].name, vod_remarks: '✅ 共解析 ' + result.length + ' 个视频', vod_play_from: '文章内视频', vod_play_url: playUrls }] });
-
+        return JSON.stringify({ list: [{
+            vod_id: id, vod_name: vids[0].name, vod_remarks: 'OK 共' + vids.length + '个视频',
+            vod_play_from: '文章内视频', vod_play_url: play
+        }] });
     } catch (e) {
-        return JSON.stringify({ list: [{ vod_id: ids[0], vod_name: '❌ 详情报错', vod_remarks: e.message }] });
+        return JSON.stringify({ list: [{ vod_id: ids[0], vod_name: '【ERR】详情报错', vod_remarks: '' + e.message, vod_play_from: 'tip', vod_play_url: 'no$no' }] });
     }
 }
 
-// ========================================================
-// 4. 播放直链 + 搜索功能
-// ========================================================
+// ---------- 播放直链 ----------
 function playerContent(flag, id, vipFlags) {
     return JSON.stringify({ parse: 0, playUrl: id });
 }
 
+// ---------- 搜索 ----------
 function searchContent(key, quick) {
     try {
-        var url = SITES[0].host + '/?s=' + key;
-        var html = request(url);
-        var items = html.split('<div class="video-item">');
-        var result = [];
-        for (var i = 1; i < items.length; i++) {
-            var urlMatch = items[i].match(/href="([^"]+\/archives\/\d+\/)"/);
-            if (!urlMatch) continue;
-            var titleMatch = items[i].match(/alt="([^"]+)"/);
-            result.push({
-                vod_id: urlMatch[1],
-                vod_name: titleMatch ? titleMatch[1] : '未知',
-                vod_remarks: '🔍 搜索结果'
-            });
-        }
-        return JSON.stringify({ list: result });
+        var url = HOST + '/?s=' + encodeURIComponent(key);
+        var html = getHtml(url);
+        var list = parseList(html);
+        return JSON.stringify({ list: list });
     } catch (e) {
-        return JSON.stringify({ list: [{ vod_id: 'err', vod_name: '❌ 搜索报错', vod_remarks: e.message }] });
+        return JSON.stringify({ list: [] });
     }
 }
