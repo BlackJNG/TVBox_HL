@@ -1,50 +1,36 @@
 // ========================================================
-// 知更鸟 zmingcx.com 专用规则 v7 - drpy2 纯语法版
-// 依据: 用户设备上确认可用的「网易公版」规则格式
-// 关键: 推荐/一级/二级 全部使用 drpy2 标准解析语法(非 js: 内嵌)
-// 站点: WordPress(知更鸟), REST API 禁用, 纯 HTML 解析
-// 搜索: 站点开启搜索验证, 不可用
+// 知更鸟 zmingcx.com - TVBox 规则 v12
+// 按「视频干净浏览器」油猴脚本的截取逻辑编写：
+//   fetch → split 分块 → 正则提取标题/链接/图片/播放源
+// 站点: WordPress(知更鸟) - 文章站
+// 字段结构: 完全复刻「网易公版」（用户设备确认可用）
+// 分类: 只保留一个首页分类（用户要求）
 // ========================================================
 
 var rule = {
     title: '知更鸟',
     host: 'https://zmingcx.com',
     homeUrl: 'https://zmingcx.com/',
-
-    // 分类页 URL：fyclass=分类路径；分页用表达式 (fypage>1?...)
-    url: '/category/fyclass/(fypage>1?"page/"+fypage+"/":"")',
-
-    // 分类菜单（class_url 与 fyclass 对应）
-    class_name: '影视音乐&数码&素材&WordPress&资讯&作品&科普',
-    class_url: 'navigation/video&digital&material&navigation/wordpress&information&works&literacy',
-
-    // 请求头
+    url: '/page/fypage/',
+    class_name: '最新文章',
+    class_url: 'home',
     headers: {
         'User-Agent': 'MOBILE_UA'
     },
-
     timeout: 30000,
     limit: 20,
-
-    // 播放时不做转换，直接放（B站链接由影视仓内置解析）
     play_parse: true,
+    lazy: 'js:input={jx:0,url:input,parse:0}',
 
-    // 首页列表（CSS 解析语法：容器;标题;图片;备注;链接）
-    推荐: 'body&&.post-item-list;h2&&a&&Text;a.thumbs-back&&style;;h2&&a&&href',
+    // 首页推荐：抓首页 → split('<article') 分块 → 正则提取
+    推荐: 'js:var html=request(input);var list=[];var parts=html.split("<article");for(var i=1;i<parts.length;i++){var p=parts[i];var hm=p.match(/href="(https:\\/\\/zmingcx\\.com\\/[^"]+\\.html)"/);if(!hm)continue;var tm=p.match(/<h2[^>]*>\\s*<a[^>]*>([^<]+)<\\/a>/);var t=tm?tm[1].replace(/^\\s+|\\s+$/g,""):"未命名";var pic="";var pm=p.match(/background-image:\\s*url\\(([^)]+)\\)/);if(pm){pic=pm[1];}else{var ds=p.match(/data-src="(https?:\\/\\/[^"]+)"/);if(ds)pic=ds[1];}list.push({vod_id:hm[1],vod_name:t,vod_pic:pic,vod_remarks:"知更鸟"});}VODS=list;',
 
-    // 分类列表（首页与分类页卡片结构相同，可复用）
-    一级: 'body&&.post-item-list;h2&&a&&Text;a.thumbs-back&&style;;h2&&a&&href',
+    // 分类列表：同样截取逻辑
+    一级: 'js:var html=request(input);var list=[];var parts=html.split("<article");for(var i=1;i<parts.length;i++){var p=parts[i];var hm=p.match(/href="(https:\\/\\/zmingcx\\.com\\/[^"]+\\.html)"/);if(!hm)continue;var tm=p.match(/<h2[^>]*>\\s*<a[^>]*>([^<]+)<\\/a>/);var t=tm?tm[1].replace(/^\\s+|\\s+$/g,""):"未命名";var pic="";var pm=p.match(/background-image:\\s*url\\(([^)]+)\\)/);if(pm){pic=pm[1];}else{var ds=p.match(/data-src="(https?:\\/\\/[^"]+)"/);if(ds)pic=ds[1];}list.push({vod_id:hm[1],vod_name:t,vod_pic:pic,vod_remarks:"知更鸟"});}VODS=list;',
 
-    // 详情：标题 + 播放源（iframe 里的 B站等）
-    二级: {
-        title: 'h1&&Text',
-        img: '',
-        desc: '',
-        content: '',
-        tabs: 'iframe',
-        lists: 'iframe&&src'
-    },
+    // 详情：抓文章页 → 正则截取 B站 iframe / MP4 直链 → 拼播放列表
+    二级: 'js:var html=request(input);var videos=[];var m;var reB=/<iframe[^>]*src="(\\/\\/player\\.bilibili\\.com\\/player\\.html\\?[^"]+)"/gi;while((m=reB.exec(html))!==null){var bv=m[1].match(/bvid=([A-Za-z0-9]+)/);if(bv){videos.push("B站"+(videos.length+1)+"$https://www.bilibili.com/video/"+bv[1]);}else{videos.push("B站"+(videos.length+1)+"$https:"+m[1]);}}var reM=/(?:src|data-src)="(https?:\\/\\/[^"]*\\.mp4[^"]*)"/gi;while((m=reM.exec(html))!==null){videos.push("视频"+(videos.length+1)+"$"+m[1]);}var tm=html.match(/<h1[^>]*>([^<]+)<\\/h1>/);var name=tm?tm[1].replace(/^\\s+|\\s+$/g,""):"文章播放";var pu=videos.join("#");VOD={vod_id:input,vod_name:name,vod_pic:"",vod_remarks:pu?("共"+videos.length+"个播放源"):"本文无内嵌播放源",vod_play_from:pu?"知更鸟":"提示",vod_play_url:pu||"无视频$$$"};',
 
-    // 搜索：站点开启搜索验证，返回空
-    搜索: '*'
-};
+    // 搜索：站点开启搜索验证，不可用
+    搜索: 'js:VODS=[]'
+}
