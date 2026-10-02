@@ -6,7 +6,7 @@
 // ============================================================
 
 // 改这里: 你的真实站点根地址, 结尾不要带斜杠
-var HOST = 'https://jryck.vrlvlgvm.cc/';
+var HOST = 'https://jryck.vrlvlgvm.cc';
 
 // ---------- 工具: 抓 HTML ----------
 function getHtml(url) {
