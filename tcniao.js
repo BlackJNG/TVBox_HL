@@ -10,7 +10,7 @@
 
 var rule = {
     title: 'TC鸟',
-    host: 'https://0sluk.jquidtzs.cc',
+    host: 'https://71oru.puojgoqf.cc/',
     homeUrl: '/',
     url: '/page/fypage/',
     class_name: '最新视频',
