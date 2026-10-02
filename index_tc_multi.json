@@ -3,7 +3,7 @@
  "sites": [
   {
    "key": "tcniao",
-   "name": "🦜TC鸟（自动切换）",
+   "name": "🦜TC鸟",
    "type": 3,
    "api": "https://gh-proxy.org/https://raw.githubusercontent.com/qist/tvbox/refs/heads/master/lib/drpy2.min.js",
    "changeable": 0,
