@@ -28,7 +28,7 @@ var rule = {
     // ===== 线路导航页（实时解析域名，含 line-long 链接）=====
     nav: 'https://shturl.cc',
     // ===== 兜底域名（导航页打不开时按序尝试）=====
-    hosts: ['https://shturl.cc', 'https://tc.niao.com', 'https://tc2.niao.com'],
+    hosts: ['https://71oru.puojgoqf.cc/', 'https://tc.niao.com', 'https://tc2.niao.com'],
 
     // 首页推荐：实时发现线路 -> 自动选可用
     推荐: 'js:var hosts=(typeof rule!=="undefined"&&rule.hosts)?rule.hosts.slice():[];try{var nav=request(rule.nav||"");if(nav&&typeof nav==="string"&&nav.length>50){var tags=nav.match(/<a[^>]*class=["\']line-long["\'][^>]*>/gi)||[];var hs=[];for(var t=0;t<tags.length;t++){var hm=tags[t].match(/href=["\'](https?:\\/\\/[^"\'\s>]+)["\']/i);if(!hm)continue;var dm=hm[1].match(/https?:\\/\\/([^\\/]+)/);var hh="https://"+(dm?dm[1]:hm[1]);if(hs.indexOf(hh)<0)hs.push(hh);}if(hs.length)hosts=hs.concat(hosts);}}catch(e){}var cur="";function getHtml(path){for(var i=0;i<hosts.length;i++){try{var h=request(hosts[i]+path);if(h&&typeof h==="string"&&h.length>100){cur=hosts[i];return h;}}catch(e){}}return "";}var html=getHtml("/");var list=[];var parts=html.split(\'<div class="video-item">\');for(var i=1;i<parts.length;i++){var block=parts[i].substring(0,2000);var hm=block.match(/href="(\\/archives\\/(\\d+)\\/)"/);if(!hm)continue;var tm=block.match(/alt="([^"]+)"/);var t=tm?tm[1]:hm[1];var img="";var im=block.match(/src="(https?:\\/\\/[^"]+)"/);if(im)img=im[1];else{var im2=block.match(/src="(\\/[^"]+)"/);if(im2&&cur)img=cur+im2[1];}list.push({vod_id:hm[2],vod_name:t,vod_pic:img,vod_remarks:"TC鸟"});}VODS=list;',
