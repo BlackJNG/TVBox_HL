@@ -1,6 +1,6 @@
 const https = require('https');
 
-const url = 'https://tcnav.com';
+const url = 'https://hlwf19.com/';
 
 https.get(url, (res) => {
     let html = '';
