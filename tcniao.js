@@ -1,7 +1,7 @@
 var HOST = 'https://heiliao.com';
 // 备用线路，如果主站被封，可以手动修改 HOST 或在此处添加逻辑
 var BACKUP_HOSTS = [
-    'https://hlwf19.com', // 导航站，可能需要额外处理
+    'https://f4mea.nmgwptcd.cc', // 导航站，可能需要额外处理
     'https://heiliao.cc'  // 假设的备用域名
 ];
 
