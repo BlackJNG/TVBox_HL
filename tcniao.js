@@ -27,9 +27,9 @@ var rule = {
     lazy: 'js:input={jx:0,url:input,parse:0}',
 
     // ===== 导航页（实时取最新线路，顺序使用）=====
-    nav: 'https://tcnav.com',
+    nav: 'https://hlwf19.com',
     // ===== 兜底域名（导航页打不开时用）=====
-    hosts: ['https://tcniao.com'],
+    hosts: ['https://obekj.ivnqilnk.cc'],
 
     // 首页推荐：导航页取线路 -> 顺序使用
     推荐: 'js:var hosts=[];if(typeof rule!=="undefined"&&rule._nav&&rule._nav.length){hosts=rule._nav;}else{try{var nv=request(rule.nav||"");if(nv&&typeof nv==="string"&&nv.length>50){var tags=nv.match(/<a[^>]*class=["\']line-long["\'][^>]*>/gi)||[];var hs=[];for(var t=0;t<tags.length;t++){var hm=tags[t].match(/href=["\'](https?:\\/\\/[^"\'\s>]+)["\']/i);if(!hm)continue;var dm=hm[1].match(/https?:\\/\\/([^\\/]+)/);var hh="https://"+(dm?dm[1]:hm[1]);if(hs.indexOf(hh)<0)hs.push(hh);}if(hs.length){hosts=hs;if(typeof rule!=="undefined")rule._nav=hs;}}}catch(e){}}if(!hosts.length)hosts=(typeof rule!=="undefined"&&rule.hosts)?rule.hosts.slice():[];function getHtml(path,mark){for(var i=0;i<hosts.length;i++){try{var h=request(hosts[i]+path);if(h&&typeof h==="string"&&h.length>200&&h.indexOf(mark)>0){return h;}}catch(e){}}return "";}var html=getHtml("/","video-item");var list=[];var parts=html.split(\'<div class="video-item">\');for(var i=1;i<parts.length;i++){var block=parts[i].substring(0,2000);var hm=block.match(/href="(\\/archives\\/(\\d+)\\/)"/);if(!hm)continue;var tm=block.match(/alt="([^"]+)"/);var t=tm?tm[1]:hm[1];var img="";var im=block.match(/src="(https?:\\/\\/[^"]+)"/);if(im)img=im[1];else{var im2=block.match(/src="(\\/[^"]+)"/);if(im2)img=HOST+im2[1];}list.push({vod_id:hm[2],vod_name:t,vod_pic:img,vod_remarks:"TC鸟"});}VODS=list;',
