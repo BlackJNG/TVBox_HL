@@ -7,7 +7,7 @@
 // 改域名: 只改下方 HOST
 // ========================================================
 
-var HOST = 'https://tcniao.com';
+var HOST = 'https://f4mea.nmgwptcd.cc';
 
 // ---------- 公共: 列表解析 ----------
 function parseList(html) {
