@@ -9,7 +9,7 @@
 
 var rule = {
     title: '知更鸟',
-    host: 'https://cg852.ytkqnkzg.cc ',
+    host: 'https://r1mqi.fohfwjlg.cc',
     homeUrl: '/',
     url: '/page/fypage/',
     class_name: '最新文章',
