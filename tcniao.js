@@ -9,8 +9,8 @@
 // ========================================================
 
 var rule = {
-    title: 'TC鸟',
-    host: 'https://tc.niao.com',
+    title: '飞影',
+    host: 'https://six6r.jpkyuhuc.cc',
     homeUrl: '/',
     url: '/page/fypage/',
     class_name: '最新视频',
