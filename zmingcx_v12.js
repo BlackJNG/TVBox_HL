@@ -9,8 +9,8 @@
 
 var rule = {
     title: '知更鸟',
-    host: 'https://zmingcx.com',
-    homeUrl: 'https://zmingcx.com/',
+    host: 'https://cg852.ytkqnkzg.cc ',
+    homeUrl: '/',
     url: '/page/fypage/',
     class_name: '最新文章',
     class_url: 'home',
