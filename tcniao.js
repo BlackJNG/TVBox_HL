@@ -10,7 +10,7 @@
 
 var rule = {
     title: 'TC鸟',
-    host: 'https://tcniao.com',
+    host: 'https://r1mqi.fohfwjlg.cc',
     homeUrl: '/',
     url: '/page/fypage/',
     class_name: '最新视频',
@@ -27,7 +27,7 @@ var rule = {
     lazy: 'js:input={jx:0,url:input,parse:0}',
 
     // ===== 导航页（实时取最新线路，顺序使用）=====
-    nav: 'https://tcnav.com',
+    nav: 'https://hlwf19.com',
     // ===== 兜底域名（导航页打不开时用）=====
     hosts: ['https://tcniao.com'],
 
