@@ -2,6 +2,18 @@
   "spider": "https://feigeys.pages.dev/newwex.jar;md5;fc8f993c9297d38139363cd0e3db9853",
   "sites": [
     {
+      "key": "tcniao_v26",
+      "name": "🦜TC鸟V26(最新)",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/qist/tvbox/refs/heads/master/lib/drpy2.min.js",
+      "changeable": 0,
+      "style": {
+        "type": "rect",
+        "ratio": 1.597
+      },
+      "ext": "https://gh-proxy.org/https://raw.githubusercontent.com/BlackJNG/TVBox_HL/main/tcniao_v26.js"
+    },
+    {
       "key": "tcniao_v13",
       "name": "🦜TC鸟V13(完整URL)",
       "type": 3,
