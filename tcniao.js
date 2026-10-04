@@ -10,7 +10,7 @@
 
 var rule = {
     title: '飞影',
-    host: 'https://obekj.ivnqilnk.cc',
+    host: 'https://f4mea.nmgwptcd.cc',
     homeUrl: '/',
     url: '/page/fypage/',
     class_name: '最新视频',
