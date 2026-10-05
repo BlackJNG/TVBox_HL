@@ -9,7 +9,7 @@
 // ========================================================
 
 var rule = {
-    title: 'TC鸟',
+    title: '飞哥影视',
     host: 'https://feigeys.com',
     hosts: ["https://a7pzg.avippnxc.cc","https://r8vbq.fkmmilhq.cc","https://obekj.ivnqilnk.cc","https://ve0mo.bhmgyiue.cc"],
     timeout: 3000,
