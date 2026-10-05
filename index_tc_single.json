@@ -1,0 +1,16 @@
+{
+  "sites": [
+    {
+      "key": "tcniao_fly",
+      "name": "🦜TC鸟Fly(单仓)",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/qist/tvbox/refs/heads/master/lib/drpy2.min.js",
+      "changeable": 0,
+      "style": {
+        "type": "rect",
+        "ratio": 1.597
+      },
+      "ext": "https://gh-proxy.org/https://raw.githubusercontent.com/BlackJNG/TVBox_HL/main/tcniao_fly.js"
+    }
+  ]
+}
