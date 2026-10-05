@@ -10,7 +10,7 @@
 
 var rule = {
     title: 'TC鸟',
-    host: 'https:// heiliao.com',
+    host: 'https://f4mea.nmgwptcd.cc',
     homeUrl: '/',
     nav: 'https://hlwf19.com',   // 导航站（线路来源，改这一处即可）
     url: '/page/fypage/',
