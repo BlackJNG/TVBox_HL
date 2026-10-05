@@ -10,9 +10,9 @@
 
 var rule = {
     title: 'TC鸟',
-    host: 'https://tc.niao.com',
+    host: 'https://heijiao.com',
     homeUrl: '/',
-    nav: 'https://tcnav.com',   // 导航站（线路来源，改这一处即可）
+    nav: 'https://hlwf19.com',   // 导航站（线路来源，改这一处即可）
     url: '/page/fypage/',
     class_name: '最新视频',
     class_url: 'home',
