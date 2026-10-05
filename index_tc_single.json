@@ -10,7 +10,8 @@
         "type": "rect",
         "ratio": 1.597
       },
-      "ext": "https://gh-proxy.org/https://raw.githubusercontent.com/BlackJNG/TVBox_HL/main/tcniao_fly.js"
+      "ext": "https://gh-proxy.org/https://raw.githubusercontent.com/BlackJNG/TVBox_HL/main/tcniao_fly.js",
+      "spider": "https://gh-proxy.org/https://raw.githubusercontent.com/BlackJNG/TVBox_HL/main/tcniao_fly.js"
     }
   ]
 }

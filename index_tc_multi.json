@@ -11,7 +11,8 @@
         "type": "rect",
         "ratio": 1.597
       },
-      "ext": "https://gh-proxy.org/https://raw.githubusercontent.com/BlackJNG/TVBox_HL/main/tcniao_fly2.js"
+      "ext": "https://gh-proxy.org/https://raw.githubusercontent.com/BlackJNG/TVBox_HL/main/tcniao_fly2.js",
+      "spider": "https://gh-proxy.org/https://raw.githubusercontent.com/BlackJNG/TVBox_HL/main/tcniao_fly2.js"
     },
     {
       "key": "tcniao_fly",
@@ -23,7 +24,8 @@
         "type": "rect",
         "ratio": 1.597
       },
-      "ext": "https://gh-proxy.org/https://raw.githubusercontent.com/BlackJNG/TVBox_HL/main/tcniao_fly.js"
+      "ext": "https://gh-proxy.org/https://raw.githubusercontent.com/BlackJNG/TVBox_HL/main/tcniao_fly.js",
+      "spider": "https://gh-proxy.org/https://raw.githubusercontent.com/BlackJNG/TVBox_HL/main/tcniao_fly.js"
     },
     {
       "key": "tcniao_auto",
@@ -35,7 +37,8 @@
         "type": "rect",
         "ratio": 1.597
       },
-      "ext": "https://gh-proxy.org/https://raw.githubusercontent.com/BlackJNG/TVBox_HL/main/tcniao_auto.js"
+      "ext": "https://gh-proxy.org/https://raw.githubusercontent.com/BlackJNG/TVBox_HL/main/tcniao_auto.js",
+      "spider": "https://gh-proxy.org/https://raw.githubusercontent.com/BlackJNG/TVBox_HL/main/tcniao_auto.js"
     },
     {
       "key": "tcniao_v27",
@@ -47,7 +50,8 @@
         "type": "rect",
         "ratio": 1.597
       },
-      "ext": "https://gh-proxy.org/https://raw.githubusercontent.com/BlackJNG/TVBox_HL/main/tcniao_v27.js"
+      "ext": "https://gh-proxy.org/https://raw.githubusercontent.com/BlackJNG/TVBox_HL/main/tcniao_v27.js",
+      "spider": "https://gh-proxy.org/https://raw.githubusercontent.com/BlackJNG/TVBox_HL/main/tcniao_v27.js"
     },
     {
       "key": "tcniao_v26",
@@ -59,7 +63,8 @@
         "type": "rect",
         "ratio": 1.597
       },
-      "ext": "https://gh-proxy.org/https://raw.githubusercontent.com/BlackJNG/TVBox_HL/main/tcniao_v26.js"
+      "ext": "https://gh-proxy.org/https://raw.githubusercontent.com/BlackJNG/TVBox_HL/main/tcniao_v26.js",
+      "spider": "https://gh-proxy.org/https://raw.githubusercontent.com/BlackJNG/TVBox_HL/main/tcniao_v26.js"
     },
     {
       "key": "tcniao_v13",
@@ -71,7 +76,8 @@
         "type": "rect",
         "ratio": 1.597
       },
-      "ext": "https://gh-proxy.org/https://raw.githubusercontent.com/BlackJNG/TVBox_HL/main/tcniao_v13.js"
+      "ext": "https://gh-proxy.org/https://raw.githubusercontent.com/BlackJNG/TVBox_HL/main/tcniao_v13.js",
+      "spider": "https://gh-proxy.org/https://raw.githubusercontent.com/BlackJNG/TVBox_HL/main/tcniao_v13.js"
     },
     {
       "key": "tcniao_v14",
@@ -83,7 +89,8 @@
         "type": "rect",
         "ratio": 1.597
       },
-      "ext": "https://gh-proxy.org/https://raw.githubusercontent.com/BlackJNG/TVBox_HL/main/tcniao_v14.js"
+      "ext": "https://gh-proxy.org/https://raw.githubusercontent.com/BlackJNG/TVBox_HL/main/tcniao_v14.js",
+      "spider": "https://gh-proxy.org/https://raw.githubusercontent.com/BlackJNG/TVBox_HL/main/tcniao_v14.js"
     },
     {
       "key": "tcniao_v15",
@@ -95,7 +102,8 @@
         "type": "rect",
         "ratio": 1.597
       },
-      "ext": "https://gh-proxy.org/https://raw.githubusercontent.com/BlackJNG/TVBox_HL/main/tcniao_v15.js"
+      "ext": "https://gh-proxy.org/https://raw.githubusercontent.com/BlackJNG/TVBox_HL/main/tcniao_v15.js",
+      "spider": "https://gh-proxy.org/https://raw.githubusercontent.com/BlackJNG/TVBox_HL/main/tcniao_v15.js"
     },
     {
       "key": "zmingcx_v12",
@@ -107,7 +115,8 @@
         "type": "rect",
         "ratio": 1.597
       },
-      "ext": "https://gh-proxy.org/https://raw.githubusercontent.com/BlackJNG/TVBox_HL/main/zmingcx_v12.js"
+      "ext": "https://gh-proxy.org/https://raw.githubusercontent.com/BlackJNG/TVBox_HL/main/zmingcx_v12.js",
+      "spider": "https://gh-proxy.org/https://raw.githubusercontent.com/BlackJNG/TVBox_HL/main/zmingcx_v12.js"
     }
   ],
   "lives": [],
