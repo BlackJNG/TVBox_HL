@@ -9,12 +9,12 @@
 // ========================================================
 
 var rule = {
-    title: 'TC鸟',
-    host: 'https://tc.niao.com',
-    hosts: ["https://tc.niao.com"],
+    title: '飞哥影视',
+    host: 'https://feigeys.com',
+    hosts: ["https://a7pzg.avippnxc.cc","https://r8vbq.fkmmilhq.cc","https://obekj.ivnqilnk.cc","https://ve0mo.bhmgyiue.cc"],
     timeout: 3000,
     homeUrl: '/',
-    nav: 'https://tcnav.com',   // 导航站（线路来源，改这一处即可）
+    nav: 'https://hlwf19.com',   // 导航站（线路来源，改这一处即可）
     url: '/page/fypage/',
     class_name: '最新视频',
     class_url: 'home',
