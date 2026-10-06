@@ -1,5 +1,5 @@
 // ========================================================
-// TC鸟 tc.niao.com - TVBox 规则 v13
+// 飞哥影视 feigeys.com - TVBox 规则 v13
 // 按「视频干净浏览器V3.0」油猴脚本抓取逻辑 1:1 移植：
 //   列表: html.split('<div class="video-item">') + 正则提取
 //   详情: data-video_title + config='{...}' JSON → cfg.video.url
