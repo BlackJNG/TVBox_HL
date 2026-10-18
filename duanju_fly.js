@@ -12,7 +12,7 @@ var rule = {
     hosts: ["https://scu.ye28r31s.cc", "https://xjtu.ye28r31s.cc"],
     timeout: 5000,
     homeUrl: '/newest/',
-    nav: '',
+    nav: 'https://huangguoai.pages.dev',
     class_name: '最新',
     class_url: 'home',
     searchUrl: '/search/video/**/',
