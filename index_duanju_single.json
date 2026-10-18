@@ -1,0 +1,17 @@
+{
+  "spider": "https://feigeys.pages.dev/newwex.jar;md5;fc8f993c9297d38139363cd0e3db9853",
+  "sites": [
+    {
+      "key": "duanju_fly",
+      "name": "🎬短剧站",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/qist/tvbox/refs/heads/master/lib/drpy2.min.js",
+      "changeable": 0,
+      "style": {
+        "type": "rect",
+        "ratio": 1.597
+      },
+      "ext": "https://gh-proxy.org/https://raw.githubusercontent.com/BlackJNG/TVBox_HL/main/duanju_fly.js"
+    }
+  ]
+}
