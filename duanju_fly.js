@@ -11,10 +11,10 @@
 var rule = {
     title: '短剧',
     host: 'https://hust.duanju.cc',
-    hosts: ["https://hust.duanju.cc"],
+    hosts: ["https://de7b3.ye28r31s.cc"],
     timeout: 5000,
     homeUrl: '/newest/',
-    nav: '',   // 导航站地址（页面含 h4.最新地址 + ul/li/a），改这里
+    nav: 'https://huangguoai.pages.dev',   // 导航站地址（页面含 h4.最新地址 + ul/li/a），改这里
     class_name: '最新',
     class_url: 'home',
     searchUrl: '/search/video/**/',
