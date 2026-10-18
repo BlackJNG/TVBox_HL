@@ -5,7 +5,7 @@
 
 var rule = {
     title: '短剧',
-    host: 'https://hust.duanju.cc',
+    host: 'https://xjtu.ye28r31s.cc',
     hosts: ["https://scu.ye28r31s.cc"],
     timeout: 5000,
     homeUrl: '/newest/',
