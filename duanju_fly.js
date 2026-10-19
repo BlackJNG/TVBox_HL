@@ -13,7 +13,7 @@ var rule = {
     hosts: ["https://hust.duanju.cc", "https://scu.ye28rs.cc"],
     timeout: 5000,
     homeUrl: '/newest/',
-    nav: '',
+    nav: 'https://huangguoai.pages.dev',
     class_name: '最新',
     class_url: 'home',
     searchUrl: '/search/video/**/',
