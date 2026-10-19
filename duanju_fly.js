@@ -9,11 +9,11 @@
 
 var rule = {
     title: '短剧',
-    host: 'https://hust.duanju.cc',
-    hosts: ["https://hust.duanju.cc", "https://scu.ye28rs.cc"],
+    host: 'https://api.duanju.cc',
+    hosts: ["https://v93j.ye28r31s.cc", "https://xjtu.ye28r31s.cc"],
     timeout: 5000,
     homeUrl: '/newest/',
-    nav: '',
+    nav: 'https://huangguoai.pages.dev',
     class_name: '最新',
     class_url: 'home',
     searchUrl: '/search/video/**/',
